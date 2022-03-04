@@ -3,11 +3,11 @@ import cls from 'classnames';
 import styles from './CardsSection.module.css';
 import Card from '../Card/Card';
 import Image from 'next/image';
-import { ImgSize, Video } from '../types';
+import { ImgSize, VideoMinimized } from '../types';
 
 interface CardsSectionProps {
   title: string;
-  videos: Video[];
+  videos: VideoMinimized[];
   imgSize: ImgSize;
 }
 

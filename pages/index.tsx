@@ -5,15 +5,15 @@ import Banner from '../components/Banner/Banner';
 import Card from '../components/Card/Card';
 import CardsSection from '../components/CardsSection/CardsSection';
 import NavBar from '../components/NavBar/NavBar';
-import { Video } from '../components/types';
+import { VideoMinimized } from '../components/types';
 import styles from '../styles/Home.module.css';
 import { getVideos } from '../lib/youtube-api';
 import Spinner from '../components/Spinner/Spinner';
 
 interface HomeProps {
-  disneyVideos: Video[];
-  travelVideos: Video[];
-  productivityVideos: Video[];
+  disneyVideos: VideoMinimized[];
+  travelVideos: VideoMinimized[];
+  productivityVideos: VideoMinimized[];
 }
 
 const Home: NextPage<HomeProps> = ({
@@ -50,18 +50,18 @@ const Home: NextPage<HomeProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const disneyVideos: Video[] = [];
-  const travelVideos: Video[] = [];
-  const productivityVideos: Video[] = [];
+  const disneyVideos: VideoMinimized[] = [];
+  const travelVideos: VideoMinimized[] = [];
+  const productivityVideos: VideoMinimized[] = [];
 
   try {
     const fetchedDisneyVideos = await getVideos('disney trailer');
-    const fetchedTravelVideos = await getVideos('travel');
-    const fetchedProductivityVideos = await getVideos('productivity');
+    // const fetchedTravelVideos = await getVideos('travel');
+    // const fetchedTravelVideos = await getVideos('travel');
 
     disneyVideos.push(...fetchedDisneyVideos);
-    travelVideos.push(...fetchedTravelVideos);
-    productivityVideos.push(...fetchedProductivityVideos);
+    // travelVideos.push(...fetchedTravelVideos);
+    // productivityVideos.push(...fetchedProductivityVideos);
   } catch (error) {
     console.log(error);
   }

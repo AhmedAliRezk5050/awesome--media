@@ -12,6 +12,14 @@ export interface YoutubeSuccessResponseVideoInfo {
   etag: string;
   id: Id;
   snippet: Snippet;
+  statistics?: statistics;
+}
+
+interface statistics {
+  viewCount: string;
+  likeCount: string;
+  favoriteCount: string;
+  commentCount: string;
 }
 
 interface Snippet {

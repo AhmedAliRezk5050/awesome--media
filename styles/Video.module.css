@@ -52,9 +52,8 @@
 }
 
 .col1 {
-  max-height: 50vh /* 208px */;
-  overflow-y: hidden;
-  overflow-y: scroll;
+  max-height: 40vh;
+  overflow: scroll;
 }
 
 .publishTime {
