@@ -1,9 +1,12 @@
-const fetchGraphQL = (
+const fetchGraphQL = async (
   operationsDoc: string,
   operationName: string,
   variables: Record<string, any>,
 ) => {
-  return fetch('https://settled-troll-11.hasura.app/v1/graphql', {
+  if (!process.env.HASURA_END_POINT) {
+    return undefined;
+  }
+  const response = await fetch(process.env.HASURA_END_POINT, {
     method: 'POST',
     headers: {
       'x-hasura-admin-secret':
@@ -14,7 +17,9 @@ const fetchGraphQL = (
       variables,
       operationName,
     }),
-  }).then((result) => result.json());
+  });
+
+  return response.json();
 };
 
 const operation = `
@@ -29,14 +34,3 @@ const operation = `
 `;
 
 export const fetchMyQuery = () => fetchGraphQL(operation, 'MyQuery', {});
-
-fetchMyQuery()
-  .then(({ data, errors }) => {
-    if (errors) {
-      console.error(errors);
-    }
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error(error);
-  });

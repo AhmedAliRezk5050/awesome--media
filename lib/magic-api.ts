@@ -5,7 +5,7 @@ const initMagic = async () => {
     process.env.NEXT_PUBLIC_MAGIC_LINK_PUBLISHABLE_API_KEY as string,
   );
 
-  // await magic.preload();
+  await magic.preload();
 
   return magic;
 };

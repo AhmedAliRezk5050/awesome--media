@@ -1,14 +1,10 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import Banner from '../components/Banner/Banner';
-import Card from '../components/Card/Card';
 import CardsSection from '../components/CardsSection/CardsSection';
-import NavBar from '../components/NavBar/NavBar';
 import { VideoMinimized } from '../components/types';
 import styles from '../styles/Home.module.css';
 import { getVideos } from '../lib/youtube-api';
-import Spinner from '../components/Spinner/Spinner';
 import { useEffect } from 'react';
 import { fetchMyQuery } from '../lib/db/hasura';
 
@@ -23,9 +19,6 @@ const Home: NextPage<HomeProps> = ({
   travelVideos,
   productivityVideos,
 }) => {
-  useEffect(() => {
-    fetchMyQuery();
-  }, []);
   return (
     <div>
       <Head>
@@ -58,6 +51,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const disneyVideos: VideoMinimized[] = [];
   const travelVideos: VideoMinimized[] = [];
   const productivityVideos: VideoMinimized[] = [];
+
+  try {
+    const { data, errors } = await fetchMyQuery();
+    if (errors) {
+      console.error(errors);
+    }
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
 
   try {
     const fetchedDisneyVideos = await getVideos('disney trailer');
