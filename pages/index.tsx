@@ -9,6 +9,8 @@ import { VideoMinimized } from '../components/types';
 import styles from '../styles/Home.module.css';
 import { getVideos } from '../lib/youtube-api';
 import Spinner from '../components/Spinner/Spinner';
+import { useEffect } from 'react';
+import { fetchMyQuery } from '../lib/db/hasura';
 
 interface HomeProps {
   disneyVideos: VideoMinimized[];
@@ -21,6 +23,9 @@ const Home: NextPage<HomeProps> = ({
   travelVideos,
   productivityVideos,
 }) => {
+  useEffect(() => {
+    fetchMyQuery();
+  }, []);
   return (
     <div>
       <Head>
