@@ -1,7 +1,8 @@
-const fetchGraphQL = async (
+const foo = async (
   operationsDoc: string,
   operationName: string,
   variables: Record<string, any>,
+  token: string,
 ) => {
   if (!process.env.HASURA_END_POINT) {
     return undefined;
@@ -9,8 +10,8 @@ const fetchGraphQL = async (
   const response = await fetch(process.env.HASURA_END_POINT, {
     method: 'POST',
     headers: {
-      'x-hasura-admin-secret':
-        'YzxK7K9PW84JiaNay4X7lCdRMShDnS5MhBSKGNoHJcczlAF19bv8HgKduryoLlv6',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       query: operationsDoc,
@@ -33,4 +34,6 @@ const operation = `
   }
 `;
 
-export const fetchMyQuery = () => fetchGraphQL(operation, 'MyQuery', {});
+const hasuraApi = { foo };
+
+export default hasuraApi;

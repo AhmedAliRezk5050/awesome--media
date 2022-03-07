@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { isEmail } from '../helpers/validation';
-import { login } from '../lib/magic-api';
+import { login } from '../lib/magic-api-client';
 import cls from 'classnames';
 import styles from '../styles/Login.module.css';
 
@@ -40,13 +40,24 @@ const Login: NextPage = () => {
       try {
         setEmailError({ error: false, message: '' });
 
-        const result = await login(email);
+        const DIDToken = await login(email);
+        // call /api/login
 
-        // setLoading(false);
+        if (!DIDToken) {
+          throw new Error('Failed to login');
+        }
 
-        console.log(result);
+        const loginHasuraResponse = await fetch('/api/login', {
+          method: 'POST',
+          body: JSON.stringify({ email }),
 
-        if (!result) {
+          headers: {
+            Authorization: 'Bearer ' + DIDToken,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!loginHasuraResponse.ok) {
           throw new Error('Failed to login');
         }
 

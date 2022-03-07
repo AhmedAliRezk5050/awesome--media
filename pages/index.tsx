@@ -6,7 +6,7 @@ import { VideoMinimized } from '../components/types';
 import styles from '../styles/Home.module.css';
 import { getVideos } from '../lib/youtube-api';
 import { useEffect } from 'react';
-import { fetchMyQuery } from '../lib/db/hasura';
+import hasuraApi from '../lib/db/hasura';
 
 interface HomeProps {
   disneyVideos: VideoMinimized[];
@@ -52,8 +52,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const travelVideos: VideoMinimized[] = [];
   const productivityVideos: VideoMinimized[] = [];
 
+  const operation = `
+  query MyQuery {
+    users(where: {issuer: {_eq: "gdgfdg"}}) {
+      email
+      id
+      issuer
+      publicAddress
+    }
+  }
+`;
+
   try {
-    const { data, errors } = await fetchMyQuery();
+    const { data, errors } = await hasuraApi.foo(
+      operation,
+      'MyQuery',
+      {},
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDY1NDg1MzEuNDIyLCJleHAiOjE2NDcxNTMzMzEuNDIyLCJpc3N1ZXIiOiJkaWQ6ZXRocjoweDU1YTA0YUI1MEU3YTlhZTEzMjE2ZjAyODQ2ZUQ2Y0IyMDkwN0IxOWMiLCJwdWJsaWNBZGRyZXNzIjoiMHg1NWEwNGFCNTBFN2E5YWUxMzIxNmYwMjg0NmVENmNCMjA5MDdCMTljIiwiZW1haWwiOiJhaG1lZGFsaXJlems1MDUwQGdtYWlsLmNvbSIsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW4iXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiInZGlkOmV0aHI6MHg1NWEwNGFCNTBFN2E5YWUxMzIxNmYwMjg0NmVENmNCMjA5MDdCMTljIn19.X2AeOn2xAU7Hwg6pRHE8Oxb2VQnBnE2myuprnXLaYI0',
+    );
     if (errors) {
       console.error(errors);
     }

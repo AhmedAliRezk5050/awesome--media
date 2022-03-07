@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
-import { getUserData } from '../lib/magic-api';
+import { getUserData } from '../lib/magic-api-client';
 
 interface InitialState {
   loading: boolean;

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useReducer, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { getUserData, logout } from '../../lib/magic-api';
+import { getUserData, logout } from '../../lib/magic-api-client';
 import Spinner from '../Spinner/Spinner';
 import styles from './NavBar.module.css';
 
